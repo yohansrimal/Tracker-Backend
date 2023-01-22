@@ -29,7 +29,7 @@ app.post("/location", async(req, res) => {
         res.send(response)
     }
     catch(e){
-
+        console.log(e)
         res.send(e)
     }
 })
@@ -44,9 +44,9 @@ app.get('/location/:id', async(req,res)=>{
         })
 
         res.send(responseArr)
-    }catch(error){
-   
-        res.send(error)
+    }catch(e){
+        console.error(e);
+        res.send(e)
     }
 })
 
@@ -62,11 +62,15 @@ app.get('/location/create/:deviceId/:latitude/:longitude', async(req, res) => {
         const locationDataJson = {
             longitude: longitude,
             latitude: latitude,
+            time: millis
         }
-        const response = db.collection(deviceId).doc(millis).set(locationDataJson);
-        res.send(response)
+
+        db.collection(deviceId).doc(millis.toString()).set(locationDataJson);
+        res.status(200).json({message: "Successfull", status: 200})
+
     }
     catch(e){
+        console.error(e);
         res.send(e)
     }
     
