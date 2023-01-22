@@ -50,19 +50,20 @@ app.get('/location/:id', async(req,res)=>{
     }
 })
 
-app.get('/location/create/:deviceId/:time/:latitude/:longitude', async(req, res) => {
+app.get('/location/create/:deviceId/:latitude/:longitude', async(req, res) => {
     const deviceId = req.params.deviceId;
-    const time = req.params.time;
     const longitude = req.params.longitude;
     const latitude = req.params.latitude;
 
+    var today = new Date();
+    var millis = new Date(today).valueOf()
+
     try{
         const locationDataJson = {
-            time: time,
             longitude: longitude,
             latitude: latitude,
         }
-        const response = db.collection(deviceId).doc(time).set(locationDataJson);
+        const response = db.collection(deviceId).doc(millis).set(locationDataJson);
         res.send(response)
     }
     catch(e){
